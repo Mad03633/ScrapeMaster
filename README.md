@@ -28,4 +28,5 @@ Ensure you have the following dependencies installed:
 ## Configuration
 
 Make sure to update the ```SBR_WEBDRIVER``` variable with the correct path to your Chrome WebDriver in the ```scrape_website.py``` file.
+
 ```SBR_WEBDRIVER = 'path_to_chromedriver'```
