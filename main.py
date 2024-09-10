@@ -1,18 +1,19 @@
 import streamlit as st
 from scrape_website import (scrape_website, clean_body_content, extract_body_content, split_dom_content)
 from parse import parse_with_ollama
+from typing import LiteralString
 
 
 st.title("Scrape Master")
-url = st.text_input("Enter a website URL: ")
+url: str = st.text_input("Enter a website URL: ")
 
 if st.button("Scrape Website: "):
     if url:
         st.write("Scraping the website...")
     
-        dom_content = scrape_website(url)
-        body_content = extract_body_content(dom_content)
-        cleaned_content = clean_body_content(body_content)
+        dom_content: str = scrape_website(url)
+        body_content: str = extract_body_content(dom_content)
+        cleaned_content: str = clean_body_content(body_content)
 
         st.session_state.dom_content = cleaned_content
     
@@ -21,12 +22,12 @@ if st.button("Scrape Website: "):
 
 
 if "dom_content" in st.session_state:
-        parse_description = st.text_area("Describe what you want to parse?")
+        parse_description: str = st.text_area("Describe what you want to parse?")
 
         if st.button("Parse Content"):
             if parse_description:
                 st.write("Parsing the content...")
 
-                dom_chunks = split_dom_content(st.session_state.dom_content)
-                parsed_result = parse_with_ollama(dom_chunks, parse_description)
+                dom_chunks: list = split_dom_content(st.session_state.dom_content)
+                parsed_result: LiteralString = parse_with_ollama(dom_chunks, parse_description)
                 st.write(parsed_result)

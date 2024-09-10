@@ -1,8 +1,9 @@
 from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
+from typing import LiteralString, Any
 
 
-template = (
+template: str = (
     "You are tasked with extracting specific information from the following text content: {dom_content}. "
     "Please follow these instructions carefully: \n\n"
     "1. **Extract Information:** Only extract the information that directly matches the provided description: {parse_description}. "
@@ -13,14 +14,14 @@ template = (
 
 model = OllamaLLM(model="llama3.1")
 
-def parse_with_ollama(dom_chunks, parse_description):
+def parse_with_ollama(dom_chunks: Any, parse_description: Any) -> LiteralString:
     prompt = ChatPromptTemplate.from_template(template)
     chain = prompt | model
 
-    parsed_results = []
+    parsed_results: list = []
 
     for i, chunk in enumerate(dom_chunks, start=1):
-            response = chain.invoke(
+            response: str = chain.invoke(
                 {"dom_content": chunk, "parse_description": parse_description}
             )        
             print(f"Parsed batch {i} of {len(dom_chunks)}")
